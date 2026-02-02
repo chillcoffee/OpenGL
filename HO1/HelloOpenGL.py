@@ -16,7 +16,7 @@ pygame.display.set_caption("OpenGL in Python")
 def init_ortho():
     glMatrixMode(GL_PROJECTION)  #camera
     glLoadIdentity()  #clear screen clear drawings
-    gluOrtho2D(0, 640, 0, 480)  #setup view of camera means 0,0 of the window is at lowerleft corner
+    gluOrtho2D(0, 640, 0, 480)  #setup view of camera means 0,0 of the window is at lower left corner
 
 
 done = False
@@ -28,7 +28,7 @@ while not done:
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)  #setup opengl to start drawing in model coordinate system
-    glLoadIdentity()    #clear the modelview
+    glLoadIdentity()  #clear the model view
 
     glPointSize(10)
     glBegin(GL_POINTS)

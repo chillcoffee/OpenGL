@@ -14,7 +14,7 @@ ortho_height = 480
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Basic Graphics Primitives - Different GL_LINE Parameters')
-
+#GATEPASS: MAKE DIFFERENT LINE STRIP FOR EVERY MOUSEUP
 
 def init_ortho():
     glMatrixMode(GL_PROJECTION)

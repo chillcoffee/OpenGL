@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-#todo: seatwork 2: import and install numpy
 
 pygame.init()
 
@@ -16,21 +15,18 @@ pygame.display.set_caption('Basic Graphics Primitives')
 def init_ortho():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluOrtho2D(0,640,0,480) #todo: seatwork1: make the point appear at the center
-    #todo seatwork5: zoom in to show the curves of the graph
+    gluOrtho2D(0,640,0,480)
 
 
 def plot_graph():
     glBegin(GL_POINTS)
-    #todo: seatwork3: plot the graph of the line
     glVertex2f(0, 0)
-    #todo: seatwork4: change the arange params to fill the entire screen with the graph
     glEnd()
 
 
 done = False
 init_ortho()
-glPointSize(50)
+glPointSize(5)
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

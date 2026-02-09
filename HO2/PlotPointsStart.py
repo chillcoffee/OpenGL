@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-#todo: seatwork 3: import and install numpy
+#todo: seatwork 2: import and install numpy
 
 pygame.init()
 

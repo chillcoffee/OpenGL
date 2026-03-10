@@ -20,8 +20,6 @@ current_position = (0, 0)
 direction = np.array([0, 1, 0])
 axiom = 'X'
 rules = {
-    # 'F': 'F[+F]F',
-    # 'F': 'FF[+F][--FF][-F+F]',
     'F': 'FF',
     'X': 'F+[-F-XF-X][+FF][--XF[+X]][++F-X]'
 }

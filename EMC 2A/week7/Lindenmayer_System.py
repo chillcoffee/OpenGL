@@ -8,25 +8,28 @@ pygame.init()
 
 screen_width = 800
 screen_height = 800
-ortho_left = -400
-ortho_right = 400
-ortho_top = 0
-ortho_bottom = 800
+ortho_left = -200
+ortho_right = 600
+ortho_top = -100
+ortho_bottom = 700
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('LindenMayer System')
 
 current_position = (0, 0)
 direction = np.array([0, 1, 0])
-axiom = 'X'
+axiom = '-X'
 rules = {
+    # 'X': 'F+[-F-XF-X][+FF][--XF[+X]][++F-X]'
+    # 'F': 'F+F−F−F+F'
     'F': 'FF',
-    'X': 'F+[-F-XF-X][+FF][--XF[+X]][++F-X]'
+    'X': 'F+[[X]-X]-F[-FX]+X'
+
 }
-draw_length = 5
+draw_length = 2
 turn_angle = 25
 stack = []
-search_and_replace = 5
+search_and_replace = 7
 instructions = ""
 
 def run_rule(run_count):
@@ -82,6 +85,7 @@ def draw_turtle():
             move_to(current_vector[0])
             direction = current_vector[1]
 
+
 def forward(draw_length):
     new_x = current_position[0] + direction[0] * draw_length
     new_y = current_position[1] + direction[1] * draw_length
@@ -109,6 +113,7 @@ while not done:
     reset_turtle()
     draw_turtle()
     pygame.display.flip()
+    # pygame.time.wait(100)
 pygame.quit()
 
 

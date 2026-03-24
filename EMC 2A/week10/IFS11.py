@@ -9,9 +9,9 @@ pygame.init()
 screen_width = 800
 screen_height = 800
 ortho_left = -200
-ortho_right = 600
-ortho_top = -100
-ortho_bottom = 700
+ortho_right = 200
+ortho_top = 0
+ortho_bottom = 800
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('LindenMayer System')
@@ -31,6 +31,10 @@ turn_angle = 25
 stack = []
 search_and_replace = 5
 instructions = ""
+
+points = []
+x = 0
+y = 0
 
 def run_rule(run_count):
     global instructions
@@ -68,23 +72,35 @@ def move_to(pos):
     global current_position
     current_position = (pos[0], pos[1])
 
-def draw_turtle():
-    global current_position
-    global direction
-    for c in range(0, len(instructions)):
-        if instructions[c] == 'F':
-            forward(draw_length)
-        elif instructions[c] == '+':
-            rotate(turn_angle)
-        elif instructions[c] == '-':
-            rotate(-turn_angle)
-        elif instructions[c] == '[':
-            stack.append((current_position, direction))
-        elif instructions[c] == ']':
-            current_vector = stack.pop()
-            move_to(current_vector[0])
-            direction = current_vector[1]
 
+def draw_turtle():
+    global x
+    global y
+    points.append((x, y))
+    r = np.random.rand()
+    # if r < 0.33:
+    #     x, y = 0.5 * x + 0.00 * y + 0.0, x * 0.0 + y * 0.5 + 0.5
+    # elif r < 0.66:
+    #     x, y = 0.5 * x + 0.00 * y + 0.5, x * 0.0 + y * 0.5 + 0.0
+    # else:
+    #     x, y = 0.5 * x + 0.00 * y + 0.0, x * 0.0 + y * 0.5 + 0.0
+
+    if r < 0.1:
+        x, y = 0.00 * x + 0.00 * y, 0.00 * x + 0.16 * y + 0.0
+    elif r < 0.86:
+        x, y = 0.85 * x + 0.04 * y, -0.04 * x + 0.85 * y + 1.60
+    elif r < 0.93:
+        x, y = 0.2 * x - 0.26 * y, 0.23 * x + 0.22 * y + 1.6
+    else:
+        x, y = -0.15 * x + 0.28 * y, 0.26 * x + 0.24 *y + 0.44
+
+
+def draw_points():
+    glPointSize(1)
+    glBegin(GL_POINTS)
+    for p in points:
+        glVertex(p[0], p[1])
+    glEnd()
 
 def forward(draw_length):
     new_x = current_position[0] + direction[0] * draw_length
@@ -101,7 +117,7 @@ init_ortho()
 done = False
 glLineWidth(1)
 glPointSize(10)
-run_rule(search_and_replace)
+# run_rule(search_and_replace)
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -110,12 +126,11 @@ while not done:
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
+    glScaled(80, 80, 1)
+
     reset_turtle()
     draw_turtle()
+    draw_points()
     pygame.display.flip()
-    # pygame.time.wait(100)
+    pygame.time.wait(1)
 pygame.quit()
-
-
-
-

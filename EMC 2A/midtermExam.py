@@ -15,19 +15,26 @@ ortho_bottom = 10
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Midterm Exam')
+#39
+rules = {
+    'F': 'FF',
+    'X': 'F+[[X]-X]-F[-FX]+X'
+}
 
 def init_ortho():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluOrtho2D(ortho_left, ortho_right, ortho_top, ortho_bottom)
 
+#36
 def draw_triangle():
-    glBegin(GL_POLYGON)
+    glBegin(GL_TRIANGLES)
     glVertex2i(-1, 1)
     glVertex2i(1, -1)
     glVertex2i(0, 1)
     glEnd()
 
+#37
 def save_to_file(points):
     f = open("data.txt", "w")
     number_of_coords = len(points)
@@ -36,6 +43,7 @@ def save_to_file(points):
         coord = points[i]
         f.write(str(coord[0]) +" "+ str(coord[1])+"\n")
 
+#38
 def forward(draw_length):
     glLineWidth(5)
     glColor(0, 1, 0, 1)
@@ -60,7 +68,8 @@ while not done:
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    #draw_triangle()
+    # draw_triangle()
     forward(draw_length)
+    # save_to_file(points)
     pygame.display.flip()
 pygame.quit()

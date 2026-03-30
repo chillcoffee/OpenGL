@@ -58,6 +58,7 @@ def reset_turtle():
 
 def line_to(x, y):
     global current_position
+
     glBegin(GL_LINE_STRIP)
     glVertex2f(current_position[0], current_position[1])
     glVertex2f(x, y)
@@ -113,7 +114,7 @@ while not done:
     reset_turtle()
     draw_turtle()
     pygame.display.flip()
-    # pygame.time.wait(100)
+    pygame.time.wait(100)
 pygame.quit()
 
 

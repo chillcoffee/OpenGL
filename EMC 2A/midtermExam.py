@@ -18,7 +18,7 @@ pygame.display.set_caption('Midterm Exam')
 #39
 rules = {
     'F': 'FF',
-    'X': 'F+[[X]-X]-F[-FX]+X'
+    'X': 'F+[[X]-X]-F[-FX]+X',
 }
 
 def init_ortho():
@@ -28,7 +28,7 @@ def init_ortho():
 
 #36
 def draw_triangle():
-    glBegin(GL_TRIANGLES)
+    glBegin(GL_LINE_LOOP)
     glVertex2i(-1, 1)
     glVertex2i(1, -1)
     glVertex2i(0, 1)
@@ -68,8 +68,8 @@ while not done:
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    # draw_triangle()
-    forward(draw_length)
+    draw_triangle()
+    # forward(draw_length)
     # save_to_file(points)
     pygame.display.flip()
 pygame.quit()

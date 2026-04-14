@@ -21,14 +21,6 @@ class Mesh:
             glVertex3fv(self.vertices[self.triangles[t+2]])
             glEnd()
 
-            glColor(1,0,1,1)
-            glBegin(GL_LINE_LOOP)
-            glVertex3fv(self.vertices[self.triangles[t]])
-            glVertex3fv(self.vertices[self.triangles[t + 1]])
-            glVertex3fv(self.vertices[self.triangles[t + 2]])
-            glEnd()
-
-
 
 
 

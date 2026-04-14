@@ -3,7 +3,6 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from LoadMesh import *
-from Camera import *
 
 pygame.init()
 
@@ -14,10 +13,10 @@ background_color = (0, 0, 0, 1)
 drawing_color = (1, 0, 1, 1)
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
-pygame.display.set_caption('Coordinate Space and Camera')
+pygame.display.set_caption('OpenGL in Python')
 # objectVariable = classname() #instantiation
-teapot = LoadMesh("teapot.obj", GL_LINE_LOOP)
-camera = Camera()
+cube = LoadMesh("donut.obj", GL_LINE_LOOP)
+
 
 def initialise():
     glClearColor(background_color[0], background_color[1], background_color[2], background_color[3])
@@ -28,20 +27,20 @@ def initialise():
     glLoadIdentity()
     gluPerspective(60, (screen_width / screen_height), 0.1, 1000.0)
 
-def init_camera():
     # modelview
     glMatrixMode(GL_MODELVIEW)
+    glTranslate(0, 0, -5)
     glLoadIdentity()
     glViewport(0, 0, screen.get_width(), screen.get_height())
     glEnable(GL_DEPTH_TEST)
-    camera.update(screen.get_width(), screen.get_height())
+    glTranslate(0, 0, -2)
 
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    init_camera()
+    # glRotatef(1, 10, 0, 1)
     glPushMatrix()
-    teapot.draw()
+    cube.draw()     #obj.methodName()
     glPopMatrix()
 
 
@@ -53,4 +52,5 @@ while not done:
             done = True
     display()
     pygame.display.flip()
+    pygame.time.wait(100)
 pygame.quit()

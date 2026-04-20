@@ -3,6 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from Cube import *
+from Camera import *
 
 pygame.init()
 
@@ -16,6 +17,7 @@ screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPEN
 pygame.display.set_caption('OpenGL in Python')
 # objectVariable = classname() #instantiation
 cube = Cube(GL_LINE_LOOP)
+camera = Camera()
 
 
 def initialise():
@@ -27,18 +29,18 @@ def initialise():
     glLoadIdentity()
     gluPerspective(60, (screen_width / screen_height), 0.1, 1000.0)
 
+def init_camera():
     # modelview
     glMatrixMode(GL_MODELVIEW)
-    glTranslate(0, 0, -5)
     glLoadIdentity()
     glViewport(0, 0, screen.get_width(), screen.get_height())
     glEnable(GL_DEPTH_TEST)
-    glTranslate(0, 0, -4)
+    camera.update(screen.get_width(), screen.get_height())
 
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glRotatef(1, 10, 0, 1)
+    init_camera()
     glPushMatrix()
     cube.draw()     #obj.methodName()
     glPopMatrix()
@@ -52,5 +54,4 @@ while not done:
             done = True
     display()
     pygame.display.flip()
-    pygame.time.wait(100)
 pygame.quit()

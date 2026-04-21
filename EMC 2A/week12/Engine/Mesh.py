@@ -13,13 +13,16 @@ class Mesh:
         self.triangles = [0, 2, 3, 0, 3, 1]
         self.draw_type = GL_LINE_LOOP
 
-    def draw(self):
+    def draw(self, move=pygame.Vector3(0, 0, 0)):
+        glPushMatrix()
+        glTranslatef(move.x, move.y, move.z)
         for t in range(0, len(self.triangles), 3):
             glBegin(self.draw_type)
             glVertex3fv(self.vertices[self.triangles[t]])
             glVertex3fv(self.vertices[self.triangles[t+1]])
             glVertex3fv(self.vertices[self.triangles[t+2]])
             glEnd()
+        glPopMatrix()
 
 
 

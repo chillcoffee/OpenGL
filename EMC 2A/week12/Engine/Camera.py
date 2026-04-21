@@ -10,9 +10,40 @@ class Camera:
         self.right = pygame.math.Vector3(1, 0, 0)       #right(x-axis)
         self.forward = pygame.math.Vector3(0, 0, 1)     #forward towards z(screen)
         self.look = self.eye + self.forward
-        self.key_sensitivity = 1
+        self.key_sensitivity = 0.05
+        self.mouse_Xsensitivity = 0.005
+        self.mouse_Ysensitivity = 0.005
+        self.yaw = -90
+        self.pitch = 0
+        self.last_mouse = pygame.math.Vector2(0, 0)
+
+    def rotate(self, yaw, pitch):
+        self.yaw += yaw
+        self.pitch += pitch
+
+        if self.pitch > 89.0:
+            self.pitch = 89.0
+        if self.yaw > 89.0:
+            self.yaw = 89.0
+
+        #calculate the new xyz
+        self.forward.x = cos(radians(self.pitch)) * cos(radians(self.yaw))
+        self.forward.y = sin(radians(self.pitch))
+        self.forward.z = cos(radians(self.pitch)) * sin(radians(self.yaw))
+        self.forward = self.forward.normalize()
+        self.right = self.forward.cross(pygame.math.Vector3(0, 1, 0)).normalize()
+        self.up = self.right.cross(self.forward).normalize()
 
     def update(self, w, h):
+        if pygame.mouse.get_visible():
+            return
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_change = self.last_mouse - pygame.math.Vector2(mouse_pos)
+        pygame.mouse.set_pos(w/2, h/2)
+        self.last_mouse = pygame.mouse.get_pos()
+
+        self.rotate(-mouse_change.x * self.mouse_Xsensitivity, mouse_change.y * self.mouse_Ysensitivity)
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_DOWN]:
             self.eye -= self.forward * self.key_sensitivity

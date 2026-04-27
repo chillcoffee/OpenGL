@@ -2,6 +2,7 @@ import pygame
 from OpenGL.GLU import *
 from math import *
 
+
 class Camera:
     def __init__(self):
         self.eye = pygame.math.Vector3(0, 0, 0)
@@ -10,8 +11,37 @@ class Camera:
         self.forward = pygame.math.Vector3(0, 0, 1)
         self.look = self.eye + self.forward
         self.key_sensitivity = 0.005
+        self.yaw = -90
+        self.pitch = 0
+        self.last_mouse = pygame.math.Vector2(0, 0)
+        self.mouseX_sensitivity = 0.1
+        self.mouseY_sensitivity = 0.1
+
+    def rotate(self, yaw, pitch):
+        self.yaw += yaw
+        self.pitch += pitch
+        if self.yaw > 89.0:
+            self.yaw = 89.0
+        if self.pitch > 89.0:
+            self.pitch = 89.0
+
+        self.forward.x = cos(radians(self.pitch)) * cos(radians(self.yaw))
+        self.forward.y = sin(radians(self.pitch))
+        self.forward.z = cos(radians(self.pitch)) * sin(radians(self.yaw))
+        self.forward = self.forward.normalize()
+        self.right = self.forward.cross(pygame.math.Vector3(0, 1, 0)).normalize()
+        self.up = self.right.cross(self.forward).normalize()
 
     def update(self, screen_w, screen_h):
+        if pygame.mouse.get_visible():
+            return
+
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_change = self.last_mouse - pygame.math.Vector2(mouse_pos)
+        pygame.mouse.set_pos(screen_w / 2, screen_h / 2)
+        self.last_mouse = pygame.mouse.get_pos()
+        self.rotate(-mouse_change.x * self.mouseX_sensitivity, mouse_change.y * self.mouseY_sensitivity)
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_DOWN]:
             self.eye -= self.forward * self.key_sensitivity
@@ -26,32 +56,3 @@ class Camera:
         gluLookAt(self.eye.x, self.eye.y, self.eye.z,
                   self.look.x, self.look.y, self.look.z,
                   self.up.x, self.up.y, self.up.z)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
